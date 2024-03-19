@@ -24,6 +24,12 @@ class Ring:
         ring = make_ring()
         ring.set_texture(petals)
         ring.set_transparency(TransparencyAttrib.M_binary)
+        ring.set_color(
+            random.random(),
+            random.random(),
+            random.random(),
+            1,
+        )
         ring.reparent_to(self.center)
         self.ring = ring
         self.rotation_direction = random.random() ** 2
