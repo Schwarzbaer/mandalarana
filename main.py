@@ -10,26 +10,28 @@ from make_models import make_ring
 num_rings = 50
 ring_distance = 1.5
 ring_rotation = 10.0
-ship_speed = 1.0
+ship_speed = 2.0
 ShowBase()
 base.accept('escape', base.task_mgr.stop)
 #base.cam.set_pos(10, -10, 10)
 #base.cam.look_at(0,0,0)
 
 
+ring_specs = [
+    ("simple_petals.png", 9, (1, 0.3, 0.3, 1)),
+    ("petal_2.png", 8, (0.1, 0.8, 0.1, 1)),
+]
+
+
 class Ring:
     def __init__(self):
         self.center = NodePath("center")
-        petals = base.loader.load_texture("simple_petals.png")
-        ring = make_ring()
+        tex_name, segments, color = random.choice(ring_specs)
+        petals = base.loader.load_texture(tex_name)
+        ring = make_ring(repeats=random.randint(segments, 12))
         ring.set_texture(petals)
         ring.set_transparency(TransparencyAttrib.M_binary)
-        ring.set_color(
-            random.random(),
-            random.random(),
-            random.random(),
-            1,
-        )
+        ring.set_color(*color)
         ring.reparent_to(self.center)
         self.ring = ring
         self.rotation_direction = random.random() ** 2
