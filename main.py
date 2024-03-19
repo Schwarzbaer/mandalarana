@@ -1,4 +1,5 @@
 import random
+import itertools
 
 from panda3d.core import TransparencyAttrib
 from panda3d.core import NodePath
@@ -8,7 +9,7 @@ from direct.showbase.ShowBase import ShowBase
 from make_models import make_ring
 
 num_rings = 50
-ring_distance = 1.5
+ring_distance = 1.0
 ring_rotation = 10.0
 ship_speed = 2.0
 ShowBase()
@@ -20,13 +21,17 @@ base.accept('escape', base.task_mgr.stop)
 ring_specs = [
     ("simple_petals.png", 9, (1, 0.3, 0.3, 1)),
     ("petal_2.png", 8, (0.1, 0.8, 0.1, 1)),
+    ("petal_3.png", 8, (0.8, 0.0, 0.8, 1)),
+    ("petal_5.png", 8, (0.5, 1.0, 0.5, 1)),
+    ("petal_4.png", 8, (0.8, 0.0, 0.0, 1)),
 ]
 
 
 class Ring:
-    def __init__(self):
+    def __init__(self, spec):
         self.center = NodePath("center")
-        tex_name, segments, color = random.choice(ring_specs)
+        #tex_name, segments, color = random.choice(ring_specs)
+        tex_name, segments, color = spec
         petals = base.loader.load_texture(tex_name)
         ring = make_ring(repeats=random.randint(segments, 12))
         ring.set_texture(petals)
@@ -49,7 +54,12 @@ class Ring:
         self.ring.set_r(self.ring.get_r() + angle * self.rotation_direction)
 
 
-rings = [Ring() for _ in range(num_rings)]
+rings = []
+ring_specs = itertools.cycle(ring_specs)
+for _ in range(num_rings):
+    rings.append(Ring(next(ring_specs)))
+
+
 for idx, ring in enumerate(rings):
     if idx % 2 == 0:
         ring.rotation_direction *= -1
