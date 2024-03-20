@@ -55,14 +55,14 @@ def make_ring(repeats=8, segments_per_repeat=120):
             vertex.set_data3f(
                 turtle.get_relative_point(
                     root,
-                    Point3(0, 0, -0.7),
+                    Point3(0, 0, -1.0),
                 ),
             )
             texcoord.set_data2f(ratio, 1.0)
             vertex.set_data3f(
                 turtle.get_relative_point(
                     root,
-                    Point3(0, 0, -2.0),
+                    Point3(0, 0, -4.0),
                 ),
             )
             texcoord.set_data2f(ratio, 0.0)
